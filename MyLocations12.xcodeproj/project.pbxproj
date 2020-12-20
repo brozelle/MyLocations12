@@ -22,6 +22,7 @@
 		5DF8AFDD258DB2F600AC63AD /* Location+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF8AFDB258DB2F600AC63AD /* Location+CoreDataProperties.swift */; };
 		5DF8AFE1258EAE5200AC63AD /* LocationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF8AFE0258EAE5200AC63AD /* LocationsViewController.swift */; };
 		5DF8AFEB258EC4CF00AC63AD /* LocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF8AFEA258EC4CF00AC63AD /* LocationCell.swift */; };
+		5DF8AFF0258F178900AC63AD /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF8AFEF258F178900AC63AD /* MapViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		5DF8AFDB258DB2F600AC63AD /* Location+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Location+CoreDataProperties.swift"; path = "MyLocations12/Location+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		5DF8AFE0258EAE5200AC63AD /* LocationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsViewController.swift; sourceTree = "<group>"; };
 		5DF8AFEA258EC4CF00AC63AD /* LocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCell.swift; sourceTree = "<group>"; };
+		5DF8AFEF258F178900AC63AD /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +90,7 @@
 				5DF8AFC8258C490A00AC63AD /* LocationDetailsViewController.swift */,
 				5DF8AFE0258EAE5200AC63AD /* LocationsViewController.swift */,
 				5DBFB783258B4497000419F1 /* Main.storyboard */,
+				5DF8AFEF258F178900AC63AD /* MapViewController.swift */,
 				5DBFB786258B4497000419F1 /* MyLocations12.xcdatamodeld */,
 				5DBFB77F258B4497000419F1 /* SceneDelegate.swift */,
 			);
@@ -170,6 +173,7 @@
 				5DF8AFD8258D83C300AC63AD /* Functions.swift in Sources */,
 				5DF8AFE1258EAE5200AC63AD /* LocationsViewController.swift in Sources */,
 				5DF8AFDD258DB2F600AC63AD /* Location+CoreDataProperties.swift in Sources */,
+				5DF8AFF0258F178900AC63AD /* MapViewController.swift in Sources */,
 				5DF8AFEB258EC4CF00AC63AD /* LocationCell.swift in Sources */,
 				5DBFB780258B4497000419F1 /* SceneDelegate.swift in Sources */,
 				5DBFB788258B4497000419F1 /* MyLocations12.xcdatamodeld in Sources */,
