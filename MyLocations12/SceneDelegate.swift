@@ -6,17 +6,116 @@
 //
 
 import UIKit
+import CoreData
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    lazy var managedObjectContext = persistentContainer.viewContext
 
+    // MARK: - Core Data stack
+//Load the data model
+    lazy var persistentContainer: NSPersistentContainer = {
+        /*
+         The persistent container for the application. This implementation
+         creates and returns a container, having loaded the store for the
+         application to it. This property is optional since there are legitimate
+         error conditions that could cause the creation of the store to fail.
+        */
+        let container = NSPersistentContainer(name: "MyLocations12")
+        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+            if let error = error as NSError? {
+                // Replace this implementation with code to handle the error appropriately.
+                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                 
+                /*
+                 Typical reasons for an error here include:
+                 * The parent directory does not exist, cannot be created, or disallows writing.
+                 * The persistent store is not accessible, due to permissions or data protection when the device is locked.
+                 * The device is out of space.
+                 * The store could not be migrated to the current model version.
+                 Check the error message to determine what the actual problem was.
+                 */
+                fatalError("Unresolved error \(error), \(error.userInfo)")
+            }
+        })
+        return container
+    }()
+    
+    // MARK: - Core Data Saving support
 
-    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
+    func saveContext () {
+        let context = persistentContainer.viewContext
+        if context.hasChanges {
+            do {
+                try context.save()
+            } catch {
+                // Replace this implementation with code to handle the error appropriately.
+                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                let nserror = error as NSError
+                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+            }
+        }
+    }
+    
+    //MARK:- Helper Methods
+    
+    func listenForFatalCoreDataNotifications() {
+      // Notify me whenever dataSaveFailedNotification is posted.
+      NotificationCenter.default.addObserver(
+        forName: dataSaveFailedNotification,
+        object: nil,
+        queue: OperationQueue.main
+      ) { _ in
+          //Sets up error message to display.
+          let message = """
+          There was a fatal error in the app and it cannot continue.
+
+          Press OK to terminate the app. Sorry for the inconvenience.
+          """
+          //Creates a UI Alert
+          let alert = UIAlertController(
+            title: "Internal Error",
+            message: message,
+            preferredStyle: .alert)
+
+          // Add an action for the alerts OK button.
+        let action = UIAlertAction(title: "OK", style: .default) { _ in
+            let exception = NSException(
+              name: NSExceptionName.internalInconsistencyException,
+              reason: "Fatal Core Data error",
+              userInfo: nil)
+            exception.raise()
+          }
+          alert.addAction(action)
+        //Shows the Alert
+        let tabController = self.window!.rootViewController!
+        tabController.present(
+          alert,
+          animated: true,
+          completion: nil)
+    }
+  }
+
+//Find the UITTabBarController and look at the viewControllers array.
+    func scene(_ scene: UIScene,
+               willConnectTo session: UISceneSession,
+               options connectionOptions: UIScene.ConnectionOptions) {
+        let tabController = window!.rootViewController as! UITabBarController
+        if let tabViewControllers = tabController.viewControllers {
+          
+            // First tab
+          var navController = tabViewControllers[0] as! UINavigationController
+          let controller1 = navController.viewControllers.first
+                            as! CurrentLocationViewController
+          controller1.managedObjectContext = managedObjectContext
+          // Second tab
+          navController = tabViewControllers[1] as! UINavigationController
+          let controller2 = navController.viewControllers.first
+                            as! LocationsViewController
+          controller2.managedObjectContext = managedObjectContext
+        }
+        listenForFatalCoreDataNotifications()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -42,12 +141,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
-        // Called as the scene transitions from the foreground to the background.
-        // Use this method to save data, release shared resources, and store enough scene-specific state information
-        // to restore the scene back to its current state.
-
-        // Save changes in the application's managed object context when the application transitions to the background.
-        (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
+        saveContext()
     }
 
 
