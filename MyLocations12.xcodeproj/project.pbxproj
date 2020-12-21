@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5D8CD6522590545A0072C759 /* UIImage+Resize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8CD6512590545A0072C759 /* UIImage+Resize.swift */; };
+		5D8CD655259059E60072C759 /* String+AddText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8CD654259059E60072C759 /* String+AddText.swift */; };
 		5DBFB77E258B4497000419F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DBFB77D258B4497000419F1 /* AppDelegate.swift */; };
 		5DBFB780258B4497000419F1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DBFB77F258B4497000419F1 /* SceneDelegate.swift */; };
 		5DBFB782258B4497000419F1 /* CurrentLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DBFB781258B4497000419F1 /* CurrentLocationViewController.swift */; };
@@ -28,6 +29,7 @@
 
 /* Begin PBXFileReference section */
 		5D8CD6512590545A0072C759 /* UIImage+Resize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Resize.swift"; sourceTree = "<group>"; };
+		5D8CD654259059E60072C759 /* String+AddText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+AddText.swift"; sourceTree = "<group>"; };
 		5DBFB77A258B4497000419F1 /* MyLocations12.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyLocations12.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5DBFB77D258B4497000419F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5DBFB77F258B4497000419F1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 				5DF8AFEF258F178900AC63AD /* MapViewController.swift */,
 				5DBFB786258B4497000419F1 /* MyLocations12.xcdatamodeld */,
 				5DBFB77F258B4497000419F1 /* SceneDelegate.swift */,
+				5D8CD654259059E60072C759 /* String+AddText.swift */,
 				5D8CD6512590545A0072C759 /* UIImage+Resize.swift */,
 			);
 			path = MyLocations12;
@@ -182,6 +185,7 @@
 				5DBFB780258B4497000419F1 /* SceneDelegate.swift in Sources */,
 				5DBFB788258B4497000419F1 /* MyLocations12.xcdatamodeld in Sources */,
 				5DF8AFDC258DB2F600AC63AD /* Location+CoreDataClass.swift in Sources */,
+				5D8CD655259059E60072C759 /* String+AddText.swift in Sources */,
 				5DF8AFD4258D664A00AC63AD /* HudView.swift in Sources */,
 				5DF8AFC9258C490A00AC63AD /* LocationDetailsViewController.swift in Sources */,
 			);

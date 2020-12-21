@@ -14,9 +14,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        customizeAppearance()
         print(applicationDocumentsDirectory)
        // let _ = controller2.view
         return true
+    }
+    
+func customizeAppearance() {
+      // Tab bar
+      let tintColor = UIColor(
+        red: 255 / 255.0,
+        green: 238 / 255.0,
+        blue: 136 / 255.0,
+        alpha: 1.0)
+      UITabBar.appearance().tintColor = tintColor
     }
 
     // MARK: UISceneSession Lifecycle
