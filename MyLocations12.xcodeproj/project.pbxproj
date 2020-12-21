@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5D8CD6522590545A0072C759 /* UIImage+Resize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8CD6512590545A0072C759 /* UIImage+Resize.swift */; };
 		5DBFB77E258B4497000419F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DBFB77D258B4497000419F1 /* AppDelegate.swift */; };
 		5DBFB780258B4497000419F1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DBFB77F258B4497000419F1 /* SceneDelegate.swift */; };
 		5DBFB782258B4497000419F1 /* CurrentLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DBFB781258B4497000419F1 /* CurrentLocationViewController.swift */; };
@@ -26,6 +27,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5D8CD6512590545A0072C759 /* UIImage+Resize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Resize.swift"; sourceTree = "<group>"; };
 		5DBFB77A258B4497000419F1 /* MyLocations12.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyLocations12.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5DBFB77D258B4497000419F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5DBFB77F258B4497000419F1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 				5DF8AFEF258F178900AC63AD /* MapViewController.swift */,
 				5DBFB786258B4497000419F1 /* MyLocations12.xcdatamodeld */,
 				5DBFB77F258B4497000419F1 /* SceneDelegate.swift */,
+				5D8CD6512590545A0072C759 /* UIImage+Resize.swift */,
 			);
 			path = MyLocations12;
 			sourceTree = "<group>";
@@ -174,6 +177,7 @@
 				5DF8AFE1258EAE5200AC63AD /* LocationsViewController.swift in Sources */,
 				5DF8AFDD258DB2F600AC63AD /* Location+CoreDataProperties.swift in Sources */,
 				5DF8AFF0258F178900AC63AD /* MapViewController.swift in Sources */,
+				5D8CD6522590545A0072C759 /* UIImage+Resize.swift in Sources */,
 				5DF8AFEB258EC4CF00AC63AD /* LocationCell.swift in Sources */,
 				5DBFB780258B4497000419F1 /* SceneDelegate.swift in Sources */,
 				5DBFB788258B4497000419F1 /* MyLocations12.xcdatamodeld in Sources */,

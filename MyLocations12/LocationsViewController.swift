@@ -95,8 +95,8 @@ class LocationsViewController: UITableViewController {
                             commit editingStyle: UITableViewCell.EditingStyle,
                             forRowAt indexPath: IndexPath) {
       if editingStyle == .delete {
-        let location = fetchedResultsController.object(
-          at: indexPath)
+        let location = fetchedResultsController.object(at: indexPath)
+        location.removePhotoFile()
         managedObjectContext.delete(location)
         do {
           try managedObjectContext.save()
@@ -184,4 +184,7 @@ extension LocationsViewController: NSFetchedResultsControllerDelegate {
     print("*** controllerDidChangeContent")
     tableView.endUpdates()
     }
+
 }
+
+

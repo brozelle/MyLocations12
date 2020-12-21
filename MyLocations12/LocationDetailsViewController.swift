@@ -24,6 +24,9 @@ class LocationDetailsViewController: UITableViewController {
     @IBOutlet var longitudeLabel: UILabel!
     @IBOutlet var addressLabel: UILabel!
     @IBOutlet var dateLabel: UILabel!
+    @IBOutlet var imageView: UIImageView!
+    @IBOutlet var addPhotoLabel: UILabel!
+    @IBOutlet weak var imageHeight: NSLayoutConstraint!
     
     var coordinate = CLLocationCoordinate2D (latitude: 0,
                                               longitude: 0)
@@ -45,6 +48,14 @@ class LocationDetailsViewController: UITableViewController {
       }
     }
     var descriptionText = ""
+    var image: UIImage?
+    var observer: Any!
+    
+    deinit {
+        print("*** deinit \(self)")
+        NotificationCenter.default.removeObserver(observer!)
+    }
+
 
   // MARK: - Actions
     @IBAction func done() {
@@ -60,6 +71,7 @@ class LocationDetailsViewController: UITableViewController {
           } else {
             hudView.text = "Tagged"
             location = Location(context: managedObjectContext)
+            location.photoID = nil
           }
         
         // Create a new location instance
@@ -71,7 +83,25 @@ class LocationDetailsViewController: UITableViewController {
       location.longitude = coordinate.longitude
       location.date = date
       location.placemark = placemark
-      // takes the objects from the context and permanently writes them to the data store.
+        
+//Save Image
+    if let image = image {
+          //Get a new ID and assign it to the Locatoion's photoID property
+          if !location.hasPhoto {
+            location.photoID = Location.nextPhotoID() as NSNumber
+          }
+          //Converts the image to jpg.
+          if let data = image.jpegData(compressionQuality: 0.5) {
+            //Saves the data object
+            do {
+              try data.write(to: location.photoURL, options: .atomic)
+            } catch {
+              print("Error writing file: \(error)")
+            }
+          }
+        }
+        
+// takes the objects from the context and permanently writes them to the data store.
       do {
         try managedObjectContext.save()
         afterDelay(0.6) {hudView.hide()
@@ -83,6 +113,7 @@ class LocationDetailsViewController: UITableViewController {
           fatalCoreDataError(error)
         }
       }
+    
     @IBAction func cancel() {
         navigationController?.popViewController(animated: true)
   }
@@ -97,6 +128,12 @@ class LocationDetailsViewController: UITableViewController {
         super.viewDidLoad()
         if let location = locationToEdit {
             title = "Edit Location"
+//If the Location has a photo, show it in the photo cell.
+            if location.hasPhoto {
+                if let theImage = location.photoImage{
+                    show(image: theImage)
+                }
+            }
           }
         descriptionTextView.text = descriptionText
         categoryLabel.text = categoryName
@@ -111,7 +148,7 @@ class LocationDetailsViewController: UITableViewController {
             addressLabel.text = "No Address Found"
         }
         dateLabel.text = format(date: date)
-        
+        listenForBackgroundNotification()
 // Hide keyboard
         let gestureRecognizer = UITapGestureRecognizer(target: self,
                                                        action: #selector(hideKeyboard))
@@ -158,6 +195,33 @@ class LocationDetailsViewController: UITableViewController {
       descriptionTextView.resignFirstResponder()
     }
     
+    func show(image: UIImage) {
+        imageView.image = image
+        imageView.isHidden = false
+        addPhotoLabel.text = ""
+        imageHeight.constant = 260
+        tableView.reloadData()
+    }
+//If the image picker is open and user presses the home button, the LocationDetailViewController is shown when the app is active.
+    func listenForBackgroundNotification() {
+      observer = NotificationCenter.default.addObserver(forName: UIApplication.didEnterBackgroundNotification,
+                                             object: nil,
+                                             queue: OperationQueue.main) { [weak self] _ in
+        if let weakSelf = self {
+            if weakSelf.presentedViewController != nil {
+                weakSelf.dismiss(animated: false,
+                                 completion: nil)
+            }
+            weakSelf.descriptionTextView.resignFirstResponder()
+        }
+       /* if self.presentedViewController != nil {
+          self.dismiss(animated: false,
+                       completion: nil)
+        }
+        //self.descriptionTextView.resignFirstResponder()*/
+      }
+    }
+    
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue,
                           sender: Any?) {
@@ -183,6 +247,86 @@ class LocationDetailsViewController: UITableViewController {
     //Handles the actual taps on the rows.
       if indexPath.section == 0 && indexPath.row == 0 {
         descriptionTextView.becomeFirstResponder()
+      } else if indexPath.section == 1 && indexPath.row == 0 {
+        //takePhotoWithCamera()
+        //choosePhotoFromLibrary()
+        tableView.deselectRow(at: indexPath, animated: true)
+        pickPhoto()
       }
     }
 }
+
+extension LocationDetailsViewController: UIImagePickerControllerDelegate,
+  UINavigationControllerDelegate {
+    
+// MARK: - Image Helper Methods
+  func takePhotoWithCamera() {
+    let imagePicker = UIImagePickerController()
+    imagePicker.sourceType = .camera
+    imagePicker.delegate = self
+    imagePicker.allowsEditing = true
+    present(imagePicker, animated: true,
+            completion: nil)
+  }
+    
+func choosePhotoFromLibrary() {
+      let imagePicker = UIImagePickerController()
+      imagePicker.sourceType = .photoLibrary
+      imagePicker.delegate = self
+      imagePicker.allowsEditing = true
+      present(imagePicker, animated: true, completion: nil)
+    }
+    
+//Creates/Displays action sheet.
+    func pickPhoto() {
+        //Insert before running on iPhone if UIImagePickerController.isSourceTypeAvailable(.camera) {
+        //take out when deploying for iPhone.
+        if true || UIImagePickerController.isSourceTypeAvailable(.camera) {
+        showPhotoMenu()
+      } else {
+        choosePhotoFromLibrary()
+      }
+    }
+
+    func showPhotoMenu() {
+      let alert = UIAlertController(title: nil,
+                                    message: nil,
+                                    preferredStyle: .actionSheet)
+
+      let actCancel = UIAlertAction(title: "Cancel",
+                                    style: .cancel,
+                                    handler: nil)
+      alert.addAction(actCancel)
+
+      let actPhoto = UIAlertAction(title: "Take Photo",
+                                   style: .default) { _ in self.takePhotoWithCamera()
+      }
+      alert.addAction(actPhoto)
+
+      let actLibrary = UIAlertAction(title: "Choose From Library",
+                                     style: .default) { _ in self.choosePhotoFromLibrary()
+        
+      }
+        
+      alert.addAction(actLibrary)
+        
+        present(alert, animated: true,
+                completion: nil)
+        }
+    
+// MARK: - Image Picker Delegates
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+          image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage
+          if let theImage = image {
+            show(image: theImage)
+          }
+//Makes the cancel and done button on the image selection work.
+        dismiss(animated: true, completion: nil)
+    }
+
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+      dismiss(animated: true, completion: nil)
+    }
+}
+
